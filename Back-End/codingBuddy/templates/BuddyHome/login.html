@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <title>Login</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+  
+      .container-fluid{
+        background-image: linear-gradient(to left top, #d80bb5, #c530bf, #b041c6, #9a4ecb, #8457cd, #7855cf, #6b53d2, #5b52d4, #5246da, #4a38e0, #4227e5, #3a0ae9);
+      }
+      .login-box{
+        background: rgba(0, 0, 0, 0.241);
+        border: 0px solid #fff;
+        border-top-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+      .login-box::before{
+        content: '';
+        width: 100%;
+
+        background: rgba(0, 0, 0, 0.5);
+        
+      }
+      a.register-link{
+        text-decoration: none;
+        justify-content: center;
+        
+      }
+      a.forget-link{
+        text-decoration: none;
+        justify-content: end;
+        
+      }
+
+    </style>
+  </head>
+  <body>
+    {% for message in messages %}
+    <div class="alert m-0 alert-{{message.tags}} alert-dismissible fade show" role="alert">
+      <strong>Message: </strong> {{message}}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+
+    <div class="container-fluid  p-0">
+      <div class="container p-5">
+        <div class="row m-5 mb-0">
+          <div class="col-md-7">
+            <img
+                class="mb-1 " src="static/images/login.png" alt=""  width="100%" height="400px" />
+          </div>
+          <div class="col-md-5 mt-4">
+            <div class="login-box text-center p-3">
+              <h4 class="mb-4" style="color: white;">Student_Teacher Login</h4>
+            <form class="form-signin" method="post" action="/login">
+              {% csrf_token %} 
+              <label for="inputUsername" class="sr-only">Username</label>
+              <input type="text" id="inputEmail" class="form-control mb-2" name="Username" placeholder="User Name" required autofocus/>
+              
+              
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input type="password" id="Password" class="form-control" name="password" placeholder="Password" required />
+
+              <div class="mt-2">
+                <a class="forget-link d-flex text-info" href="">Forgot Password?</a>
+              </div>
+              <div hidden class="checkbox mt-5">
+                <label>
+                  <input type="checkbox" value="remember-me" hidden /> Remember me
+                </label>
+              </div>
+        
+              <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">
+                Login
+              </button>
+
+              <div class="mt-5 mb-5">
+                <center>Don't have account?</center>
+                <a class="register-link d-flex text-warning" href="/register">Signup</a>
+              </div>
+            </form> 
+          </div>
+          </div>            
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+
+    <style>
+        /**
+ * FilePond Custom Styles
+ */
+        .filepond--drop-label {
+            color: #4c4e53;
+        }
+
+        .filepond--label-action {
+            -webkit-text-decoration-color: #babdc0;
+            text-decoration-color: #babdc0;
+        }
+
+        .filepond--panel-root {
+            border-radius: 2em;
+            background-color: #edf0f4;
+            height: 1em;
+        }
+
+        .filepond--item-panel {
+            background-color: #595e68;
+        }
+
+        .filepond--drip-blob {
+            background-color: #7f8a9a;
+        }
+
+        /**
+ * Page Styles
+ */
+        html {
+            padding: 3vh 0 0;
+        }
+
+        body {
+            max-width: 28em;
+            margin: 0 auto;
+            background-color: #03a9f4;
+        }
+
+        .background {
+
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .clipboard {
+            border: 0;
+            padding: 15px;
+            border-radius: 3px;
+            background-image: linear-gradient(135deg, #FDEB71 10%, #F8D800 100%);
+            cursor: pointer;
+            color: #04048c;
+            font-family: "Karla", sans-serif;
+            font-size: 16px;
+            position: relative;
+            top: 0;
+            transition: all 0.2s ease;
+        }
+
+        body .clipboard:hover {
+            top: 2px;
+        }
+
+        body p {
+            font-weight: 700;
+        }
+        .hideThisCollegue,.hideThisStudent,.hideThisTime{
+            display:none;
+        }
+    </style>
+</head>
+
+<body>
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet"> 
+
+    <div class="container p-5">
+        <div class="row p-2">
+            <div class="col-md-6"><label for="ToShareWith" >To share with :</label></div>
+            <div class="col-md-6"> 
+                <select class="form-select" aria-label="Default select example" id="ToShareWith">
+                    <option selected>Open this select menu</option>
+                    <option value="1">Everyone</option>
+                    <option value="2">Select Students</option>
+                    <option value="3">Select Colluges</option>
+              </select>
+         
+        </div>
+        <div class="row p-2 hideThisStudent" id="ToShareStudentDiv" >
+
+            <div class="col-md-6"><label for="ToShareWith" >Select Students :</label></div>
+            <div class="col-md-6"> 
+                <select class="form-select" aria-label="Default select example" id="ToShareStudent">
+                     
+              </select>
+            </div>
+        </div>
+        <div class="row p-2 hideThisCollegue" id="ToShareColleguesDiv">
+            <div class="col-md-6"><label for="ToShareWith" >Select Collegues : </label></div>
+            <div class="col-md-6"> 
+                <select class="form-select" aria-label="Default select example" id="ToShareCollegues">
+                     
+              </select>
+            </div>
+        </div>
+        
+
+
+
+        <div class="row p-2">
+            <div class="col-md-6"><label for="ToDelete" >To Delete ? :</label></div>
+            <div class="col-md-6">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" id="ToDelete" type="checkbox" onclick="toDeleteClick()" role="switch" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Delete ?</label>
+                </div>
+            </div>
+        </div>
+        <div class="row hideThisTime" id="TimeSelectDiv">
+            <div class="col-md-6"><label for="SelectTime" >Select Time to delete :</label></div>
+            <div class="col-md-6">
+                <input type="date" name="DateName" id="DateName" />
+                <input type="time" name="timeName" id="timeName"/>
+            </div> 
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"><button class="btn btn-warning" id="SavebtnID"> Save it !</button></div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+
+    <input type="file" class="my-pond mt-4" multiple name="filepond" />
+
+    <div class="text-center">
+        <button class="btn btn-success" onclick="upload_file()">Upload File</button>
+    </div>
+
+    <div class="carad mt-3" id="btn" style="display: none;">
+        <div class="card-bodqy">
+
+            <div class="background">
+                <center>
+                    <button onclick="copyClip()" class="clipboard">Click me to copy current Url</button>
+                    <p>Have you already clicked?</p>
+                </center>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/filepond/4.30.3/filepond.min.js"
+        integrity="sha512-AuMJiyTn/5k+gog21BWPrcoAC+CgOoobePSRqwsOyCSPo3Zj64eHyOsqDev8Yn9H45WUJmzbe9RaLTdFKkO0KQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+
+    <script>
+        function toDeleteClick(){
+            $("#TimeSelectDiv").toggleClass("hideThisTime");
+        }
+        $(document).ready(function(){
+            $("#ToShareWith").on("change",function(){
+                let Value = $("#ToShareWith").val();
+                console.log(Value);
+                if(Value==2){
+                    $("#ToShareStudentDiv").toggleClass("hideThisStudent");
+                    fetch('/Buddyshare/getAllusers', {
+                        method: 'GET'
+                    }).then(res => res.json())
+                    .then(result => {
+                        console.log(result)
+                        options = "<option selected>Open this select menu</option>";
+                        for (let Item of result){
+                            if(Item['usertype'] === "Student"){
+                                options = options.concat(`<option value="${Item['B_Userid']}">${Item['name']} </option> `)
+                            }
+                            
+                        }
+                        console.log(options);
+                        $("#ToShareStudent").html(options);
+                    })
+                }
+                if(Value==3){
+                    $("#ToShareColleguesDiv").toggleClass("hideThisCollegue");
+                    fetch('/Buddyshare/getAllusers', {
+                        method: 'GET'
+                    }).then(res => res.json())
+                    .then(result => {
+                        console.log(result);
+                        options = "<option selected>Open this select menu</option>";
+                        for (let Item of result){
+                            if(Item['usertype'] === "Teacher"){
+                                options = options.concat(`<option value="${Item['B_Userid']}">${Item['name']} </option> `)
+                            }
+                        }
+                        console.log(options);
+                        $("#ToShareCollegues").html(options);
+                    })
+                }
+            })
+            $("#SavebtnID").on("click",function(){
+                console.log("SaveBTNID");
+                let formdata = new FormData();
+                let ToShareWith =$("#ToShareWith").val()  ; // ShareWithEveryOne
+                let timeName =$("#timeName").val()  ; //TimeName
+                let DateName =$("#DateName").val()  ; //DateName
+                let ToDelete =$("#ToDelete").val()  ;  // tobeDelete
+                let ToShareStudent =$("#ToShareStudent").val();
+                let ToShareCollegues =$("#ToShareCollegues").val();
+
+                let ToShareevery = true;
+                let arrayShare = [];
+                if(!ToShareStudent && !ToShareCollegues){
+                    ToShareevery = true;
+                }
+                else{
+                    arrayShare.push(ToShareStudent);
+                    arrayShare.push(ToShareCollegues);
+                    ToShareevery = false;
+                }
+                print("Array share to string : ");
+                if(ToDelete == "on"){
+                    ToDelete = false;
+                }
+                else{
+                    ToDelete = true;
+                }
+                formdata.append('UserID',3); //UserID
+                formdata.append('tobeDelete',ToDelete);
+                formdata.append('ShareWithEveryOne',ToShareevery);
+                formdata.append('TimeName',timeName);
+                formdata.append('DateName',DateName);
+                formdata.append('ToShareWith',"");
+                console.log("Form Data :: ");
+                for (const value of formdata.values()) {
+                    console.log(typeof value);
+                }
+                console.log("Form Data :: ",formdata);
+                console.log("arrayShare Data :: ",arrayShare);
+                console.log(ToShareWith,typeof timeName ,DateName,ToDelete,ToShareStudent,ToShareCollegues);
+                console.log("Form Data type ",typeof formdata)
+                fetch('/Buddyshare/ShareGetApi/FileRelatedInfoSave',{
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': "{{csrf_token}}"
+                    },
+                    body: formdata
+                }).then(res => res.json())
+                .then(result => {
+                    console.log("This is before 1");
+                    console.log(result); 
+                    console.log("This is an Result !");
+                })
+            })
+        });
+
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+
+        );
+        
+  
+        function FormExtaDataSubmit(){
+            console.log("Extra field input")
+            var formdata = new FormData();
+            fetch('/Buddyshare/ShareGetApi/FileRelatedInfoSave', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': "{{csrf_token}}"
+                },
+                body: formdata
+            }).then(res => res.json())
+            .then(result => {
+                console.log(result); 
+            })
+        }
+
+        const pond = FilePond.create(
+            document.querySelector('.my-pond')
+        );
+
+        var url = null
+
+        function upload_file() {
+            console.log("1");
+            var files = pond.getFiles()
+            console.log("files",files);
+            console.log("files type", typeof files);
+            console.log("files type", typeof files[0]);
+            var formdata = new FormData()
+            console.log("3");
+            for (var i = 0; i < files.length; i++) {
+                formdata.append('files', files[i].file)
+                //console.log("files[i].file :: ",files[i].file)
+                //console.log("files[i] :: ",files[i])
+            }
+            console.log("form Data");
+            
+            fetch('/Buddyshare/ShareGetApi/APIFileShare', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': "{{csrf_token}}"
+                    },
+                    body: formdata
+                }).then(res => res.json())
+                .then(result => {
+                    console.log(result)
+
+                    url = `http://127.0.0.1:8000/download/${result.data.folder}`;
+
+                    document.getElementById('btn').style.display = 'df -h';
+                })
+
+        }
+
+        function copyClip() {
+            console.log('dd')         
+            /* Copy the text inside the text field */
+            navigator.clipboard.writeText(url);
+
+            /* Alert the copied text */
+            alert("Copied the text: " + url);
+        }
+    </script>
+</body>
+</html>

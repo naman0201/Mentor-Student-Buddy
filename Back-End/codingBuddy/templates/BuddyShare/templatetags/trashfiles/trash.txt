@@ -1,0 +1,174 @@
+<div class="container p-5">
+    <div class="EveryOne-Files">
+        <h2>new way everyOne File singhni hai  </h2><hr>
+        {% for FileRel in EveryOneFileDataObj %}
+            {% for FileRelObjs in FileRel %}
+                {% comment %} {{FileRelObjs}} {% endcomment %}
+                {% if FileRelObjs.FileDid %}    
+                    File Id :> {{ FileRelObjs.FileDid }}
+                    <br> File is Shared by :> {{ FileRelObjs.UserID }}
+                    <br> File will be Deleted ? :> {{ FileRelObjs.tobeDelete }}
+                    <br>It will be Deleted on :> {{ FileRelObjs.TimeForDeletion }}
+                    <br>{{ FileRelObjs.ShareWithEveryOne }}  {{ FileRelObjs.toShareWith }}
+                    <br>
+                {% endif %}
+                {% if FileRelObjs.file %}
+                    <br><a href="/public\static\zip\{{ FileRelObjs.file | split:"/" }}.zip" download>  something Downlaod Zip</a><br>
+                    <img src="\public\static\{{ FileRelObjs.file }}" height="200" width="350" alt="Img" /> 
+                {% endif %}
+        
+            {%endfor%}<hr>
+            <br>
+        {% endfor %}
+        <hr>
+    </div>
+    <br>
+
+
+
+
+
+
+
+
+       
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info py-3">
+        <a class="navbar-brand" href="#">Mentors-Student Buddy</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto ml-5">
+            <li class="nav-item active">
+              <a class="nav-link" href="./home">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="./about">about</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/Buddyshare/">BuddyShare</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="./contact">contact</a>
+            </li>
+            <li class="nav-item dropdown active">
+              <a class="nav-link dropdown-toggle" href="./services" role="button" data-toggle="dropdown" aria-expanded="false">
+                Services
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Upload File</a>
+                <a class="dropdown-item" href="#">View File</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+          </form>
+          <button class="btn btn-outline-light my-2 my-sm-0 ml-2"><a id="btn-logout" href="/logout">Logout</a></button>
+        </div>
+      </nav>
+
+
+
+
+
+
+
+
+
+
+
+      <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title%} {% endblock %}</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+    <style>
+        body{
+            background:#03A9F4;
+        }
+        #navbar{
+
+        }
+        #navbar span{
+            font-size:2rem;
+            font-weight:800;
+        }
+        .nav-items{
+            display:inline-block;
+            list-style:none;
+        }
+        .nav-items li{
+            display:inline-block;
+            padding:1rem;
+        }
+        .nav-items li a{
+            color:white;
+            text-decoration:none;
+        }
+    </style>
+    {% block CssStyle%} {% endblock %}
+
+</head>
+<body>
+    <nav id="navbar" class="container">
+        <span>CodingBuddy</span>
+        <ul class="nav-items">
+            <li> <img src="\static\images\php 3.jpg" alt="img src"  style="height:100%;width:3rem;"/></li>
+            <li> <a href='/Buddyshare/UploadFile'> UploadFile Local </a>  </li>
+            <li> <a href='/Buddyshare/frontFile'> upload by api </a> </li>
+            <li> <a href='/Buddyshare/APIBuddyShare'> View by api </a>  </li>
+        </ul>
+    </nav>
+    {% block body %}
+    
+    {% endblock %}
+</body>
+</html>
+
+
+
+
+
+
+{% for FileRel in EveryOneFileDataObjWithOutLogin %}
+<div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+    {% for FileRelObjs in FileRel %}
+        <div class="service-item">
+        <div class="img">
+            <img src="/static/img/services-1.jpg" class="img-fluid" alt="">
+        </div>
+        <div class="details position-relative">
+            {% if FileRelObjs.FileDid %}   
+                <div class="icon">
+                <i class="bi bi-activity"></i>
+                </div>
+                <a href="#" class="stretched-link">
+                <h3>{{ FileRelObjs.FileDid }}</h3>
+                </a>
+                <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis.</p>
+            {% endif %}
+            {% if FileRelObjs.file %} 
+                <div class="row">
+                    <div class="col-12">
+                        <a href="\public\static\zip\{{ FileRelObjs.file | split:"/" }}.zip" class="text-success" download> Downlaod Zip</a>
+                        <img class="imgforEvery" src="\public\static\{{ FileRelObjs.file }}" height="100" width="100" alt="Img" /> 
+                    </div>
+                </div>
+            {% endif %}     
+        </div>
+        </div>
+    {% endfor %}
+  </div><!-- End Service Item -->
+{% endfor %}  

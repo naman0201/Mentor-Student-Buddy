@@ -1,0 +1,218 @@
+{% extends '../BuddyHome/base.html' %} 
+{% load pollextras %}
+{% block title%} BuddyShare {% endblock %}
+
+{% block CssStyle%}
+<style>
+    .hide{
+        display:none;
+    }
+</style>
+{% endblock %}
+{%block body%} 
+{% if EveryOneFileOutLogin %}
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+        <div class="container" data-aos="fade-up">
+          <div class="section-header">
+            <h2>Files For EveryOne</h2>
+          </div>
+          <div class="row gy-5">
+              {% for FileRel in EveryOneFileOutLogin %}
+              <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                      <div class="service-item">
+                        <div class="img">
+                            <img  src="\public\static\{{ FileRel.file }}" class="img-fluid" alt="">
+                        </div>
+                        <div class="details position-relative">
+                            {% if FileRel.FileDid %} 
+                                <a href="\public\static\zip\{{ FileRel.file | split:"/" }}.zip" download>
+                                    <div class="icon">
+                                        <i class="bi bi-activity"></i>
+                                    </div>
+                                </a>
+                                    <h3>{{ FileRel.FileDid }}</h3>
+                                    <br> File is Shared by :> {{ FileRel.UserID }}
+                                    <button type="button" class="btn btn-info" id="deltebtn">
+                                        will it Delete ? <span class="badge text-bg-secondary">{% if  FileRel.tobeDelete  %}yes{% else%} No {% endif %}</span>
+                                    </button>
+                                    {% if FileRel.tobeDelete == false %}
+                                    <button type="button" class="btn btn-outline-info my-2" id="deltebtntohide">
+                                        it Delete on ? <span class="badge text-bg-secondary">{{ FileRel.TimeForDeletion }}</span>
+                                    </button>
+                                    {% endif %}
+                                    {% comment %} <br>{{ FileRel.ShareWithEveryOne }}  {{ FileRel.toShareWith }} {% endcomment %}
+                                    <hr>
+                            {% endif %}
+                            {% if FileRel.id %}
+                                
+                                <div class="row">
+                                    {% for imgpath in  FileRel.countImglist %}
+                                        <div class="col-md-4">
+                                            <img class="imgforEvery" src="\public\static\{{ imgpath }}" height="100" width="100" alt="Img" /> 
+                                        </div>
+                                    {% endfor %}
+                                    <div class="col-12">
+                                        <a href="\public\static\zip\{{ FileRel.file | split:"/" }}.zip" class="btn btn-info my-1" download> Downlaod Zip</a>
+                                    </div>
+                                </div>
+                            {% endif %}     
+                        </div>
+                      </div>
+                   
+                </div><!-- End nth Item -->
+              {% endfor %}  
+
+          </div>
+  
+        </div>
+      </section><!-- End File Share Everyone Section -->
+{% else %}
+    <div class="container p-5">
+        <div class="EveryOne-Files">
+            <h2>new way everyOne File </h2><hr>
+            {% for FileRel in EveryOneFileDataObj %}
+            File Id :> {{ FileRel.FileDid }}
+            <br> File is Shared by :> {{ FileRel.UserID }}
+            <br> File will be Deleted ? :> {{ FileRel.tobeDelete }}
+            <br>It will be Deleted on :> {{ FileRel.TimeForDeletion }}
+            <br>{{ FileRel.ShareWithEveryOne }}  {{ FileRel.toShareWith }}
+            <br>
+            {% endfor %}
+            <hr>
+            {% for Folderob in EveryOneFolderobj %}
+            <a href="/public\static\zip\5878d43c-3a35-48b7-b8e1-27a2a8756973.zip" download>Downlaod Zip<a>
+            <h6>Share On :> {{ Folderob.crated_at }}</h6>
+            {% endfor %}
+            <hr>
+            {% for Fileob in EveryOneFilesobj %}
+            {{ Fileob.folder }}
+            <img src="\public\static\{{ Fileob.file }}" height="200" width="350" alt="Img" /> 
+            {% endfor %}
+        </div>
+        <br>
+        {% comment %} EveryOne wala ends here  {% endcomment %}
+        {% if specificFileDataObj %}
+        <div class="EveryOne-Files">
+            <h2>new way Specific User File </h2><hr>
+            {% for FileRel in specificFileDataObj %}
+            File Id :> {{ FileRel.FileDid }}
+            <br> File is Shared by :> {{ FileRel.UserID }}
+            <br> File will be Deleted ? :> {{ FileRel.tobeDelete }}
+            <br>It will be Deleted on :> {{ FileRel.TimeForDeletion }}
+            <br>{{ FileRel.ShareWithEveryOne }}  {{ FileRel.toShareWith }}
+            <br><hr>
+            {% endfor %}
+            <hr>
+            {% for Folderob in SpecificFolderobj %}
+            <a href="/public\static\zip\5878d43c-3a35-48b7-b8e1-27a2a8756973.zip" download>Downlaod Zip<a>
+            <h6>Share On :> {{ Folderob.crated_at }}</h6>
+            {% endfor %}
+            <hr>
+            {% for Fileob in SpecificFilesobj %}
+            {{ Fileob.folder }}
+            <img src="\public\static\{{ Fileob.file }}" height="200" width="350" alt="Img" /> <hr>
+            {% endfor %}
+        </div>
+        <br>
+        {% endif %}
+        {% comment %} specific wala ends here  {% endcomment %}
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">  
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                    <div class="card-body">
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endif %}
+
+{% if specificuserLoggedIn %}
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+        <div class="container" data-aos="fade-up">
+          <div class="section-header">
+            <h2>Files For specific users </h2>
+          </div>
+          <div class="row gy-5">
+              {% for FileRel in specificuserLoggedIn %}
+              <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                      <div class="service-item">
+                        <div class="img">
+                            <img  src="\public\static\{{ FileRel.file }}" class="img-fluid" alt="">
+                        </div>
+                        <div class="details position-relative">
+                            {% if FileRel.FileDid %} 
+                                <a href="\public\static\zip\{{ FileRel.file | split:"/" }}.zip" download>
+                                    <div class="icon">
+                                        <i class="bi bi-activity"></i>
+                                    </div>
+                                </a>
+                                    <h3>{{ FileRel.FileDid }}</h3>
+                                    <br> File is Shared by :> {{ FileRel.UserID }}
+                                    <button type="button" class="btn btn-info" id="deltebtn">
+                                        will it Delete ? <span class="badge text-bg-secondary">{% if  FileRel.tobeDelete  %}yes{% else%} No {% endif %}</span>
+                                    </button>
+                                    {% if FileRel.tobeDelete == false %}
+                                    <button type="button" class="btn btn-outline-info my-2" id="deltebtntohide">
+                                        it Delete on ? <span class="badge text-bg-secondary">{{ FileRel.TimeForDeletion }}</span>
+                                    </button>
+                                    {% endif %}
+                                    {% comment %} <br>{{ FileRel.ShareWithEveryOne }}  {{ FileRel.toShareWith }} {% endcomment %}
+                                    <hr>
+                            {% endif %}
+                            {% if FileRel.id %}
+                                
+                                <div class="row">
+                                    {% for imgpath in  FileRel.countImglist %}
+                                        <div class="col-md-4">
+                                            <img class="imgforEvery" src="\public\static\{{ imgpath }}" height="100" width="100" alt="Img" /> 
+                                        </div>
+                                    {% endfor %}
+                                    <div class="col-12">
+                                        <a href="\public\static\zip\{{ FileRel.file | split:"/" }}.zip" class="btn btn-info my-1" download> Downlaod Zip</a>
+                                    </div>
+                                </div>
+                            {% endif %}     
+                        </div>
+                      </div>
+                   
+                </div><!-- End nth Item -->
+              {% endfor %}  
+
+          </div>
+  
+        </div>
+      </section><!-- End File Share specific user Section -->
+
+
+
+
+{% endif %}
+
+  
+      
+
+<script>
+    let elemt =document.querySelectorAll(".imgforEvery");
+    console.log(elemt);
+    let deltebtn =document.querySelectorAll("#deltebtn");
+    console.log(deltebtn);
+    let deltebtntohide =document.querySelectorAll("#deltebtntohide");
+    console.log(deltebtntohide);
+</script>
+{%endblock%}
